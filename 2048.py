@@ -9,22 +9,23 @@ class Direction(Enum):
 
 
 class Game2048:
-  def __init__(self, win=2048):
-    self.winning = win
+  def __init__(self):
+    self.score = 0 # Incremented at line 45
     self.grid = [[None, None, None, None],
                  [None, None, None, None],
                  [None, None, None, None],
                  [None, None, None, None]]
+    self.spawn_random() # Two random tiles at initialization
     self.spawn_random()
 
   def pretty_print(self): # Returns a beautified string for monospace printing.
     flattened_grid = [j for i in self.grid for j in i if j != None]
     box_length = len(str(max(flattened_grid))) # String length of maximum value in self.grid
     box_length = max(box_length, 4) # At least 4
-    desc = ""
+    desc = f"Score: {self.score}\n"
     for i in self.grid:
       desc += "|".join([f"{j: ^{box_length}}" if j else " " * box_length for j in i]) + "\n"
-    return desc
+    return desc[:-1]
 
   def spawn_random(self): # Adds a random tile 2 or 4.
     new = random.choice([2, 4])
@@ -41,6 +42,7 @@ class Game2048:
             dir_r = righters[0] # First value directly to the right excluding Nones
             if self.grid[i][j] == dir_r:
               self.grid[i][j] *= 2 # After all iterations should give [8, None, 4, 8]
+              self.score += self.grid[i][j]
               self.grid[i][righters.index(dir_r) + j + 1] = None # Index of dir_r in i: righters.index(dir_r) + j + 1
               # After all iterations should give [8, None, None, 8]
       self.grid[i] = list(filter(lambda x: x, self.grid[i])) # Remove Nones
@@ -81,7 +83,7 @@ class Game2048:
 
 game = Game2048()
 inp = ""
-print(game.pretty_print())
+print(game.pretty_print() + "\n\n")
 inp = input("Direction (WASD, or Q to quit): ").lower()
 while inp != "q":
   if inp in ['w', 'a', 's', 'd']:
