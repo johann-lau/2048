@@ -1,5 +1,5 @@
 # 2048
-A simple and plain-text Python implementation of the popular game 2048 in ninety lines. No dependencies.
+A simple and plain-text Python implementation of the popular game 2048 in 92 lines. No dependencies.
 
 I am just a teenager who have spent merely a few hours on this project. In simpler terms, you may find bugs.
 
